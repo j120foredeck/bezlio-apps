@@ -1,0 +1,72 @@
+﻿{
+  "id": "8fb05a34-9fe7-48c0-bb6f-c210d422fc71",
+  "name": "Sales Ratios",
+  "template": "custom",
+  "owner": "jon@robbjack.com",
+  "shares": [],
+  "vars": [
+    {
+      "name": "config",
+      "value": "{\"description\":\"Chart\"\n \t,\"icon\":\"fa-pie-chart\"\n \t,\"type\":\"msline\"\n \t,\"refreshing\":\"false\"\n \t,\"ref\":\"b259e27a-1a65-17d1-b21e\"\n \t,\"showAll\":false\n \t,\"multiRowConfig\":{\"label\":\"\",\"value\":\"\"}\n \t,\"columnSelectionFormula\":\"\"\n \t,\"advancedColumnSelection\":true\n \t,\"advancedColumnSelectionFormula\":\"bezl.vars['config'].dataSource.categories = [];\\nbezl.vars['config'].dataSource.categories.push({category: []});\\n \\nbezl.vars['config'].dataSource.dataset = [];\\nbezl.vars['config'].dataSource.dataset.push({\\n               seriesname: \\\"OneMonth\\\",\\n               renderas: \\\"line\\\",\\n               showValues: 0,\\n               data: []\\n});\\nbezl.vars['config'].dataSource.dataset.push({\\n               seriesname: \\\"ThreeMonths\\\",\\n               renderas: \\\"line\\\",\\n               showValues: 0,\\n               data: []\\n});\\nbezl.vars['config'].dataSource.dataset.push({\\n               seriesname: \\\"TwelveMonths\\\",\\n               renderas: \\\"line\\\",\\n               showValues: 0,\\n               data: []\\n});\\nbezl.vars['config'].dataSource.dataset.push({\\n               seriesname: \\\"Threshold\\\",\\n               renderas: \\\"line\\\",\\n               showValues: 0,\\n               data: []\\n});\\n \\nbezl.data.datasub0.forEach(ds => {\\n  bezl.vars['config'].dataSource.categories[0].category.push({label: ds[\\\"InvMonth\\\"]});\\nbezl.vars['config'].dataSource.dataset[0].data.push({value: ds[\\\"OneMonth\\\"]});\\n  bezl.vars['config'].dataSource.dataset[1].data.push({value: ds[\\\"ThreeMonths\\\"]});\\n  bezl.vars['config'].dataSource.dataset[2].data.push({value: ds[\\\"TwelveMonths\\\"]});\\n  bezl.vars['config'].dataSource.dataset[3].data.push({value: ds[\\\"Threshold\\\"]});\\n});\\n\"\n \t,\"columns\":[]\n \t,\"dataSource\":{\"chart\":{\n      \t\t\t\t\t \"caption\": \"Sales Moving Average\"\n\t\t\t\t        ,\"xAxisName\": \"Month\"\n        \t\t\t\t,\"yAxisName\": \"Moving Average\"\n      \t\t\t\t\t,\"yAxisMaxvalue\": \"130\"\n      \t\t\t\t\t,\"yAxisMinValue\": \"70\"\n    \t\t\t\t\t}\n                   ,\"categories\":[{\n                     \t\"category\":[{\"label\":\"5\"},{\"label\":\"6\"},{\"label\":\"7\"},{\"label\":\"8\"},{\"label\":\"9\"},{\"label\":\"10\"},{\"label\":\"11\"}\n                                    ,{\"label\":\"12\"},{\"label\":\"1\"},{\"label\":\"2\"},{\"label\":\"3\"},{\"label\":\"4\"}]\n                   \t\t\t\t\t}]\n                   ,\"data\":[]\n                   ,\"dataset\":[{\"seriesname\":\"OneMonth\",\"renderas\":\"line\",\"showValues\":0,\"data\":[{\"value\":88.1751},{\"value\":97.1602},{\"value\":94.6424},{\"value\":100.0973},{\"value\":95.8709},{\"value\":97.831},{\"value\":110.5306},{\"value\":96.0503},{\"value\":110.2923},{\"value\":107.0304},{\"value\":119.2908},{\"value\":111.4382}]}\n                               \t,{\"seriesname\":\"ThreeMonths\",\"renderas\":\"line\",\"showValues\":0,\"data\":[{\"value\":91.7024},{\"value\":92.0906},{\"value\":91.9957},{\"value\":95.0071},{\"value\":96.9413},{\"value\":97.0896},{\"value\":100.7956},{\"value\":99.7478},{\"value\":103.4167},{\"value\":105.746},{\"value\":108.2635},{\"value\":112.167}]}\n                                ,{\"seriesname\":\"TwelveMonths\",\"renderas\":\"line\",\"showValues\":0,\"data\":[{\"value\":93.5711},{\"value\":92.7343},{\"value\":92.7143},{\"value\":93.3745},{\"value\":93.6249},{\"value\":93.8283},{\"value\":96.0239},{\"value\":95.7898},{\"value\":96.856},{\"value\":97.8348},{\"value\":99.6616},{\"value\":100.919}]}\n                                ,{\"seriesname\":\"Threshold\",\"renderas\":\"line\",\"showValues\":0,\"data\":[{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100},{\"value\":100}]}]\n                   }} \n"
+    }
+  ],
+  "dataSubscriptions": [
+    {
+      "name": "datasub0",
+      "connectionId": "cc27fda9-80f5-4011-80fc-82e607a9efb8",
+      "dataSource": "brdb",
+      "plugin": "manager-queries",
+      "method": "ExecuteQuery",
+      "args": {
+        "QueryName": "SalesRatios"
+      },
+      "data": null,
+      "refreshInverval": 0,
+      "lastRefresh": null
+    }
+  ],
+  "markup": [
+    "<div class=\"panel\">",
+    "  <div class=\"pad-all\">",
+    "    <p class=\"text-lg text-semibold\">",
+    "      <i class=\"fa {{bezl.vars['config'].icon}}\"></i> ",
+    "      {{bezl.vars['config'].description}} ",
+    "      <i *ngIf=\"bezl.vars['config'].refreshing == false\" style=\"cursor: pointer; cursor: hand;\" class=\"fa fa-refresh\" (click)=\"bezl.functions['refresh']()\"></i>",
+    "      <i *ngIf=\"bezl.vars['config'].refreshing == true\" style=\"cursor: not-allowed;\" class=\"fa fa-refresh fa-spin\"></i>",
+    "    </p>",
+    "  </div>",
+    "  <div class=\"pad-all\">",
+    "    <div id=\"chartContainer\"></div>",
+    "  </div>",
+    "</div>"
+  ],
+  "functions": [
+    {
+      "method": "ngOnInit",
+      "code": "bezl.vars['config'].refreshing = true;",
+      "declares": [],
+      "compiled": "bezl.vars['config'].refreshing = true;"
+    },
+    {
+      "method": "onDataChange",
+      "code": "bezl.data = dataResp;\nif (bezl.data.datasub0 != null && bezl.data.datasub0.length > 0) {\n\n    bezl.vars['config'].dataSource.data = [];\n\n    if (bezl.vars['config'].advancedColumnSelection) {\n      eval(bezl.vars['config'].advancedColumnSelectionFormula);\n    } else {\n      eval(bezl.vars['config'].columnSelectionFormula);\n    }\n\n    FusionCharts.options.SVGDefinitionURL = 'absolute';\n    if  (FusionCharts(bezl.vars['config'].ref)) {\n        FusionCharts(bezl.vars['config'].ref).dispose();\n    } \n\n    bezl.vars['config'].chart = new FusionCharts ({\n        type: bezl.vars['config'].type,\n        renderAt: $(bezl.container.nativeElement).find(\"#chartContainer\")[0],\n        width: '100%',\n        height: (($(bezl.container.nativeElement)[0].clientHeight > 300) ? $(bezl.container.nativeElement)[0].clientHeight - 85 : 300),\n        id: bezl.vars['config'].ref,\n        dataFormat:'json',\n        dataSource: bezl.vars['config'].dataSource\n    }).render();\n\n    bezl.vars['config'].refreshing = false;\n}",
+      "declares": [
+        "FusionCharts"
+      ],
+      "compiled": "bezl.data = dataResp;\r\nif (bezl.data.datasub0 != null && bezl.data.datasub0.length > 0) {\r\n console.log($(bezl.container.nativeElement));\r\n bezl.vars['config'].dataSource.data = [];\r\n if (bezl.vars['config'].advancedColumnSelection) {\r\n eval(bezl.vars['config'].advancedColumnSelectionFormula);\r\n }\r\n else {\r\n eval(bezl.vars['config'].columnSelectionFormula);\r\n }\r\n FusionCharts.options.SVGDefinitionURL = 'absolute';\r\n if (FusionCharts(bezl.vars['config'].ref)) {\r\n FusionCharts(bezl.vars['config'].ref).dispose();\r\n }\r\n bezl.vars['config'].chart = new FusionCharts({\r\n type: bezl.vars['config'].type,\r\n renderAt: $(bezl.container.nativeElement).find(\"#chartContainer\")[0],\r\n width: '100%',\r\n height: (($(bezl.container.nativeElement)[0].clientHeight > 300) ? $(bezl.container.nativeElement)[0].clientHeight - 85 : 300),\r\n id: bezl.vars['config'].ref,\r\n dataFormat: 'json',\r\n dataSource: bezl.vars['config'].dataSource\r\n }).render();\r\n bezl.vars['config'].refreshing = false;\r\n}\r\n"
+    },
+    {
+      "method": "refresh",
+      "code": "bezl.vars['config'].refreshing = true;\nbezl.dataService.process('datasub0');",
+      "declares": [
+        "$",
+        "parm",
+        "bezl",
+        "dataResp",
+        "require"
+      ],
+      "compiled": "bezl.vars['config'].refreshing = true;\r\n\r\nbezl.dataService.process('datasub0');\r\n"
+    }
+  ],
+  "data": ""
+}

@@ -16,7 +16,7 @@
 select RowNumber = IDENTITY(INT,1,1), year(SHIPPED_DATE) as OrdYear, month(SHIPPED_DATE) as InvMonth,
 	SUM(b.SHIPPED_QTY * b.UNIT_PRICE * (1-b.TRADE_DISC_PERCENT/100)) as OneTotal
 into #t
-from vwSHIPPER a with(nolock), vwSHIPPER_LINE b with(nolock), PART c with(nolock), CUST_ORDER_LINE d with(nolock), CUSTOMER_ORDER e with(nolock)
+from SHIPPER a with(nolock), SHIPPER_LINE b with(nolock), PART c with(nolock), CUST_ORDER_LINE d with(nolock), CUSTOMER_ORDER e with(nolock)
 where a.PACKLIST_ID = b.PACKLIST_ID and d.PART_ID = c.ID 
 	and (b.CUST_ORDER_ID = d.CUST_ORDER_ID and b.CUST_ORDER_LINE_NO = d.LINE_NO)
 	and d.CUST_ORDER_ID = e.ID

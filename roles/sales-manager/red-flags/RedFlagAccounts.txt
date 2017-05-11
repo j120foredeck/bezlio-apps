@@ -1,0 +1,70 @@
+﻿{
+  "id": "160ac2e2-5740-41ec-b0c2-70e7c358803a",
+  "name": "Red Flag Accounts",
+  "template": "custom",
+  "owner": "jon@robbjack.com",
+  "shares": [],
+  "vars": [
+    {
+      "name": "loading",
+      "value": "\"\""
+    }
+  ],
+  "dataSubscriptions": [],
+  "markup": [
+    "<label [hidden]=\"!bezl.vars['loading']\">Loading... <i class=\"fa fa-spinner fa-spin\" style=\"font-size:24px\"></i></label>",
+    "",
+    "<table class=\"table table-hover\">",
+    "   <thead>",
+    "    <tr>",
+    "     <th>CustID</th>",
+    "     <th>Customer</th>",
+    "     <th>3mInv</th>",
+    "     <th>6mInv</th>",
+    "     <th>Delta</th>",
+    "     <th>3mOPM</th>",
+    "     <th>6mOPM</th>",
+    "    </tr>",
+    "   </thead>",
+    "  <tbody>",
+    "   <tr class=\"read\" *ngFor=\"let row of bezl.data.RedFlagCustomer\">",
+    "    <td>{{row.CustID}}</td>",
+    "    <td>{{row.CustName}}</td>",
+    "    <td>{{row.m3InvAmt | currency:'USD':true:'1.0-0'}}</td>",
+    "    <td>{{row.m6InvAmt | currency:'USD':true:'1.0-0'}}</td>",
+    "    <td>{{row.Delta | percent:'1.1-1'}}</td>",
+    "    <td>{{row.m3AvgOPM | number:'1.0-0'}}</td>",
+    "    <td>{{row.m6AvgOPM | number:'1.0-0'}}</td>",
+    "   </tr>",
+    "  </tbody>",
+    "</table>",
+    ""
+  ],
+  "functions": [
+    {
+      "method": "ngOnInit",
+      "code": "bezl.vars.loading = true\n\n// Run the RedFlagParts query\nbezl.dataService.add('RedFlagCustomer','brdb','manager-queries', 'ExecuteQuery',\n   {\"QueryName\":\"RedFlagCustomer\"},0);",
+      "declares": [
+        "$",
+        "parm",
+        "bezl",
+        "dataResp",
+        "require"
+      ],
+      "compiled": "bezl.vars.loading = true;\r\n// Run the RedFlagParts query\r\nbezl.dataService.add('RedFlagCustomer', 'brdb', 'manager-queries', 'ExecuteQuery', { \"QueryName\": \"RedFlagCustomer\" }, 0);\r\n"
+    },
+    {
+      "method": "onDataChange",
+      "code": "bezl.data = dataResp;\n\nif (bezl.data.RedFlagCustomer) {\n  bezl.vars.loading = false;\n}\n",
+      "declares": [
+        "$",
+        "parm",
+        "bezl",
+        "dataResp",
+        "require"
+      ],
+      "compiled": "bezl.data = dataResp;\r\nif (bezl.data.RedFlagCustomer) {\r\n    bezl.vars.loading = false;\r\n}\r\n"
+    }
+  ],
+  "data": ""
+}

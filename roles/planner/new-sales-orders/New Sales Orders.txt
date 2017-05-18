@@ -1,0 +1,65 @@
+﻿{
+  "id": "a6e149e1-1aaa-4ffe-97ff-356cdfe9124c",
+  "name": "New Sales Orders",
+  "template": "custom",
+  "owner": "jon@robbjack.com",
+  "shares": [],
+  "vars": [
+    {
+      "name": "loading",
+      "value": "\"\""
+    }
+  ],
+  "dataSubscriptions": [],
+  "markup": [
+    "<label [hidden]=\"!bezl.vars['loading']\">Loading... <i class=\"fa fa-spinner fa-spin\" style=\"font-size:24px\"></i></label>",
+    "",
+    "<table class=\"table table-hover\">",
+    "   <thead>",
+    "    <tr>",
+    "     <th>OrdNo</th>",
+    "     <th>Line</th>",
+    "     <th>PartNo</th>",
+    "     <th>Qty</th>",
+    "     <th>Status</th>",
+    "    </tr>",
+    "   </thead>",
+    "  <tbody>",
+    "   <tr class=\"read\" *ngFor=\"let row of bezl.data.NewSalesOrders\">",
+    "    <td>{{row.OrdNo}}</td>",
+    "    <td>{{row.Line}}</td>",
+    "    <td>{{row.PartNo}}</td>",
+    "    <td>{{row.QTY}}</td>",
+    "    <td>{{row.OrdStatus}}</td>",
+    "   </tr>",
+    "  </tbody>",
+    "</table>"
+  ],
+  "functions": [
+    {
+      "method": "ngOnInit",
+      "code": "bezl.vars.loading = true\n\n// Run the NewSalesOrders query\nbezl.dataService.add('NewSalesOrders','brdb','prod-control-queries', 'ExecuteQuery',\n   {\"QueryName\":\"NewSalesOrders\"},0);",
+      "declares": [
+        "$",
+        "parm",
+        "bezl",
+        "dataResp",
+        "require"
+      ],
+      "compiled": "bezl.vars.loading = true;\r\n// Run the NewSalesOrders query\r\nbezl.dataService.add('NewSalesOrders', 'brdb', 'prod-control-queries', 'ExecuteQuery', { \"QueryName\": \"NewSalesOrders\" }, 0);\r\n"
+    },
+    {
+      "method": "onDataChange",
+      "code": "bezl.data = dataResp;\n\nif (bezl.data.NewSalesOrders) {\n  bezl.vars.loading = false;\n}\n",
+      "declares": [
+        "$",
+        "parm",
+        "bezl",
+        "dataResp",
+        "require"
+      ],
+      "compiled": "bezl.data = dataResp;\r\nif (bezl.data.NewSalesOrders) {\r\n    bezl.vars.loading = false;\r\n}\r\n"
+    }
+  ],
+  "data": ""
+}

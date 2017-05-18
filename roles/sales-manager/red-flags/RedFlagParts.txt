@@ -1,0 +1,70 @@
+﻿{
+  "id": "579c54d5-e046-492e-a4b6-50f8b7a140b8",
+  "name": "Red Flag Parts",
+  "template": "custom",
+  "owner": "jon@robbjack.com",
+  "shares": [],
+  "vars": [
+    {
+      "name": "loading",
+      "value": "\"\""
+    }
+  ],
+  "dataSubscriptions": [],
+  "markup": [
+    "<label [hidden]=\"!bezl.vars['loading']\">Loading... <i class=\"fa fa-spinner fa-spin\" style=\"font-size:24px\"></i></label>",
+    "",
+    "<table class=\"table table-hover\">",
+    "   <thead>",
+    "    <tr>",
+    "     <th>PartNo</th>",
+    "     <th>PartDescr</th>",
+    "     <th>3mInv</th>",
+    "     <th>6mInv</th>",
+    "     <th>Delta</th>",
+    "     <th>3mOPM</th>",
+    "     <th>6mOPM</th>",
+    "    </tr>",
+    "   </thead>",
+    "  <tbody>",
+    "   <tr class=\"read\" *ngFor=\"let row of bezl.data.RedFlagParts\">",
+    "    <td>{{row.PartNo}}</td>",
+    "    <td>{{row.PartDesc}}</td>",
+    "    <td>{{row.m3InvAmt | currency:'USD':true:'1.0-0'}}</td>",
+    "    <td>{{row.m6InvAmt | currency:'USD':true:'1.0-0'}}</td>",
+    "    <td>{{row.Delta | percent:'1.1-1'}}</td>",
+    "    <td>{{row.m3AvgOPM | number:'1.0-0'}}</td>",
+    "    <td>{{row.m6AvgOPM | number:'1.0-0'}}</td>",
+    "   </tr>",
+    "  </tbody>",
+    "</table>",
+    ""
+  ],
+  "functions": [
+    {
+      "method": "ngOnInit",
+      "code": "bezl.vars.loading = true\n\n// Run the RedFlagParts query\nbezl.dataService.add('RedFlagParts','brdb','manager-queries', 'ExecuteQuery',\n   {\"QueryName\":\"RedFlagParts\"},0);",
+      "declares": [
+        "$",
+        "parm",
+        "bezl",
+        "dataResp",
+        "require"
+      ],
+      "compiled": "bezl.vars.loading = true;\r\n// Run the RedFlagParts query\r\nbezl.dataService.add('RedFlagParts', 'brdb', 'manager-queries', 'ExecuteQuery', { \"QueryName\": \"RedFlagParts\" }, 0);\r\n"
+    },
+    {
+      "method": "onDataChange",
+      "code": "bezl.data = dataResp;\n\nif (bezl.data.RedFlagParts) {\n  bezl.vars.loading = false;\n}\n",
+      "declares": [
+        "$",
+        "parm",
+        "bezl",
+        "dataResp",
+        "require"
+      ],
+      "compiled": "bezl.data = dataResp;\r\nif (bezl.data.RedFlagParts) {\r\n    bezl.vars.loading = false;\r\n}\r\n"
+    }
+  ],
+  "data": ""
+}
